@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+
+{% block title %}ShyWaver Enterprises - Empowering Student Entrepreneurs{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+        <div class="text-center">
+            <span class="inline-block bg-blue-500 px-4 py-2 rounded-full text-sm font-semibold mb-4">Campus Innovation Hub</span>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Empower Your Entrepreneurial Journey</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Transforms student ideas into thriving businesses through a collaborative ecosystem of networking, retail exposure, and professional resources</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'business_exchange' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Explore the Hub</a>
+                <a href="{% url 'cafe_menu' %}" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ecosystem Features -->
+<section class="py-16 bg-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Our Ecosystem</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Book Cafe Card -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition card-hover">
+                <div class="p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3">The Book Cafe</h3>
+                    <p class="text-gray-600 text-center mb-4">Premium café experience where student founders network, collaborate, and find co-founders</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> Founder's Table reservations</li>
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> The Pitch Wall for business visibility</li>
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> Professional workspace</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- The Boutique Card -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition card-hover">
+                <div class="p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3">The Boutique</h3>
+                    <p class="text-gray-600 text-center mb-4">Retail showcase for student-created products and services with direct customer access</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> Physical retail space</li>
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> Direct customer interaction</li>
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> Sales and revenue opportunities</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Networking Tools Card -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition card-hover">
+                <div class="p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3">Networking Tools</h3>
+                    <p class="text-gray-600 text-center mb-4">Digital directory and B2B bundles to help students find each other and collaborate</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> Campus Business Directory</li>
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> B2B Student Bundles</li>
+                        <li class="flex items-center"><span class="text-blue-600 mr-2">✓</span> QR code access for quick connection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Menu Items - Enhanced -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Featured Menu Items</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Discover our most popular items, carefully crafted for your enjoyment</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for item in featured_menu %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group">
+                <!-- Image Container -->
+                <div class="relative h-56 overflow-hidden">
+                    {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                        <span class="text-white text-6xl opacity-50">
+                            {% if item.category == 'coffee' %}☕
+                            {% elif item.category == 'pastries' %}🥐
+                            {% elif item.category == 'sandwiches' %}🥪
+                            {% else %}🍵{% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+                    <!-- Category Badge -->
+                    <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
+                        {{ item.get_category_display }}
+                    </span>
+                    <!-- Price Badge -->
+                    <span class="absolute bottom-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-lg">
+                        {{ item.price }}
+                    </span>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition">{{ item.name }}</h3>
+                    <p class="text-gray-600 mb-4 line-clamp-2">{{ item.description }}</p>
+                    <button onclick="addToCart({{ item.id }})" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span>Add to Order</span>
+                    </button>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center col-span-3 text-gray-500">No menu items available.</p>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-12">
+            <a href="{% url 'cafe_menu' %}" class="inline-flex items-center space-x-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                <span>View Full Menu</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Top Businesses - Enhanced -->
+<section class="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Top Student Businesses</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Discover amazing products and services created by fellow students</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for business in top_businesses %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group">
+                <!-- Image Container -->
+                <div class="relative h-56 overflow-hidden">
+                    {% if business.image %}
+                    <img src="{{ business.image.url }}" alt="{{ business.name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                        <span class="text-white text-6xl opacity-50">🏪</span>
+                    </div>
+                    {% endif %}
+                    <!-- Rating Badge -->
+                    <div class="absolute top-4 left-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-bold flex items-center space-x-1">
+                        <span>★</span>
+                        <span>{{ business.rating }}</span>
+                    </div>
+                    <!-- Category Badge -->
+                    {% if business.category %}
+                    <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
+                        {{ business.category.name }}
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold group-hover:text-blue-600 transition">{{ business.name }}</h3>
+                        <span class="text-sm text-gray-500">{{ business.review_count }} reviews</span>
+                    </div>
+                    <p class="text-gray-600 mb-3 line-clamp-2">{{ business.description|truncatechars:80 }}</p>
+                    
+                    <!-- Services Tags -->
+                    {% if business.get_services_list %}
+                    <div class="flex flex-wrap gap-1 mb-4">
+                        {% for service in business.get_services_list|slice:":3" %}
+                        <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">{{ service }}</span>
+                        {% endfor %}
+                        {% if business.get_services_list|length > 3 %}
+                        <span class="text-gray-400 text-xs">+{{ business.get_services_list|length|add:"-3" }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <a href="{% url 'business_detail' business.slug %}" class="inline-flex items-center justify-between w-full bg-gray-50 hover:bg-blue-50 text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition group">
+                        <span class="font-semibold">View Business</span>
+                        <svg class="w-5 h-5 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center col-span-3 text-gray-500">No businesses listed yet. Be the first to list your business!</p>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-12">
+            <a href="{% url 'business_exchange' %}" class="inline-flex items-center space-x-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                <span>Explore All Businesses</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Pitch Wall Section -->
+<section class="py-16 bg-gradient-to-r from-blue-700 to-gray-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="inline-block bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm font-semibold mb-4">🎯 Find Your Co-founder</span>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">The Pitch Wall</h2>
+            <p class="text-xl max-w-3xl mx-auto">Student entrepreneurs sharing their ideas, looking for collaborators, and building the future together</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for pitch in pitch_posts %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1 cursor-pointer" onclick="window.location.href='{% url 'pitch_detail' pitch.id %}'">
+                <div class="bg-gradient-to-r from-blue-600 to-gray-600 h-2"></div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-bold text-lg">{{ pitch.user.username|make_list|first|upper }}</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-900">{{ pitch.user.username }}</p>
+                                <p class="text-xs text-gray-500">{{ pitch.created_at|date:"M d, Y" }}</p>
+                            </div>
+                        </div>
+                        <span class="text-2xl">{{ pitch.get_category_display|slice:":2"|default:"🎯" }}</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ pitch.title }}</h3>
+                    <p class="text-gray-600 mb-4 line-clamp-3">{{ pitch.description }}</p>
+                    
+                    {% if pitch.skills_needed %}
+                    <div class="flex flex-wrap gap-1 mb-3">
+                        {% for skill in pitch.get_skills_list|slice:":3" %}
+                        <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">{{ skill }}</span>
+                        {% endfor %}
+                        {% if pitch.get_skills_list|length > 3 %}
+                        <span class="text-gray-500 text-xs">+{{ pitch.get_skills_list|length|add:"-3" }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">🤝 {{ pitch.interest_count }} interested</span>
+                            <span class="text-sm text-gray-500">💬 {{ pitch.comments.count }} comments</span>
+                        </div>
+                        <span class="text-blue-600 text-sm font-semibold">View Details →</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12">
+                <div class="text-6xl mb-4">🎯</div>
+                <p class="text-white text-lg mb-4">No pitches posted yet. Be the first to share your idea!</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'create_pitch' %}" class="inline-block bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">Create Your Pitch</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="inline-block bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">Login to Create Your Pitch</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'create_pitch' %}" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg">
+                📢 Post Your Pitch
+            </a>
+            <p class="text-sm mt-4 text-white text-opacity-80">Share your business idea, find co-founders, or look for team members</p>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Blog Posts -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Latest Insights</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for post in recent_blogs %}
+            <div class="bg-cream rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
+                <div class="p-6">
+                    <span class="inline-block bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm mb-3">{{ post.get_category_display }}</span>
+                    <h3 class="text-xl font-bold mb-2">{{ post.title }}</h3>
+                    <p class="text-gray-600 mb-3">{{ post.excerpt|truncatechars:100 }}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-500">
+                        <span>{{ post.author.username }}</span>
+                        <span>{{ post.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <a href="{% url 'blog_detail' post.slug %}" class="inline-block text-primary font-semibold mt-3 hover:underline">Read More →</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center col-span-3">No blog posts yet.</p>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-8">
+            <a href="{% url 'blog' %}" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition">Read Our Blog</a>
+        </div>
+    </div>
+</section>
+
+<!-- Waver Business Pass CTA -->
+<section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Unlock Premium Benefits for Serious Entrepreneurs</h2>
+        <p class="text-xl mb-8">Premium membership designed for serious student entrepreneurs ready to scale their ventures</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
+            <div class="bg-white bg-opacity-20 rounded-lg p-4">🎯 Priority Access</div>
+            <div class="bg-white bg-opacity-20 rounded-lg p-4">⭐ Featured Listing</div>
+            <div class="bg-white bg-opacity-20 rounded-lg p-4">📚 Business Coaching</div>
+            <div class="bg-white bg-opacity-20 rounded-lg p-4">🤝 Investor Events</div>
+        </div>
+        <a href="{% url 'login' %}" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Get Your Pass Today</a>
+    </div>
+</section>
+
+<!-- Newsletter Signup -->
+<section class="py-16 bg-cream">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold mb-4">Subscribe to Our Newsletter</h2>
+        <p class="text-gray-600 mb-8">Get the latest tips, stories, and opportunities delivered to your inbox</p>
+        <form method="post" action="{% url 'newsletter_subscribe' %}" class="flex flex-col sm:flex-row gap-4">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Enter your email" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition">Subscribe</button>
+        </form>
+    </div>
+</section>
+
+<script>
+function addToCart(itemId) {
+    fetch("{% url 'add_to_cart' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `item_id=${itemId}&quantity=1`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('Added to cart!', 'success');
+        } else {
+            showNotification('Please login to add items to cart', 'error');
+        }
+    });
+}
+
+function showInterest(pitchId) {
+    // This can be expanded to save interests to database
+    showNotification('Interest noted! The entrepreneur will be notified.', 'success');
+}
+
+function sharePitch(title) {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Check out this pitch on ShyWaver!',
+            text: title,
+            url: window.location.href,
+        });
+    } else {
+        // Fallback - copy to clipboard
+        navigator.clipboard.writeText(window.location.href);
+        showNotification('Link copied to clipboard!', 'success');
+    }
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-20 right-4 z-50 p-4 rounded-lg shadow-lg ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    } text-white transform transition-all duration-300`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+</script>
+
+<style>
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>
+{% endblock %}

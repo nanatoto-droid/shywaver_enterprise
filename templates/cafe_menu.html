@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Book Cafe  - ShyWaver Enterprises{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">The Book Cafe </h1>
+        <p class="text-xl">Enjoy premium coffee, pastries, and sandwiches while networking with fellow entrepreneurs</p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Search and Filter -->
+    <div class="mb-8">
+        <form method="get" class="flex flex-col md:flex-row gap-4">
+            <input type="text" name="search" placeholder="Search menu items..." value="{{ search_query }}" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="category" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Categories</option>
+                {% for value, label in categories %}
+                <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition">Filter</button>
+        </form>
+    </div>
+    
+    <!-- Menu Grid with Images -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for item in menu_items %}
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group">
+            <!-- Image Section -->
+            <div class="relative h-48 overflow-hidden">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% else %}
+                <div class="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <span class="text-white text-5xl opacity-50">
+                        {% if item.category == 'coffee' %}☕
+                        {% elif item.category == 'pastries' %}🥐
+                        {% elif item.category == 'sandwiches' %}🥪
+                        {% else %}🍵{% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                <!-- Category Badge -->
+                <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
+                    {{ item.get_category_display }}
+                </span>
+                <!-- Price Badge -->
+                <span class="absolute bottom-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-lg shadow-lg">
+                    ${{ item.price }}
+                </span>
+            </div>
+            
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition">{{ item.name }}</h3>
+                <p class="text-gray-600 mb-4 line-clamp-2">{{ item.description }}</p>
+                <button onclick="addToCart({{ item.id }})" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span>Add to Order</span>
+                </button>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center col-span-3 text-gray-500">No menu items found.</p>
+        {% endfor %}
+    </div>
+    
+    <!-- Book Nook Section - New Section -->
+<div class="mt-16">
+    <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl shadow-xl overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Side - Image/Illustration -->
+            <div class="relative h-64 lg:h-auto overflow-hidden">
+                {% load static %}
+                <img src="{% static 'images/book-nook.png' %}" alt="Book Nook" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-amber-900/20 to-transparent"></div>
+            </div>
+            
+            <!-- Right Side - Content -->
+            <div class="p-8 lg:p-12">
+                <div class="flex items-center space-x-3 mb-4">
+                    <span class="text-4xl">📚</span>
+                    <span class="inline-block bg-amber-200 text-amber-800 px-3 py-1 rounded-full text-sm font-semibold">The Book Nook</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Curated Books for Entrepreneurs</h2>
+                <p class="text-gray-600 mb-6">Discover our collection of hand-picked books on entrepreneurship, leadership, innovation, and personal growth. Perfect for your study sessions or while enjoying your favorite coffee.</p>
+                
+                <!-- Link to Book Nook - Changed from button to link -->
+                <a href="{% url 'book_nook' %}" class="inline-flex items-center space-x-2 bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition shadow-md hover:shadow-lg">
+                    <span>Browse All Books</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <!-- Information Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div class="text-center p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
+            <div class="text-4xl mb-3">☕</div>
+            <h3 class="font-bold mb-2">Premium Quality</h3>
+            <p class="text-gray-600">Ethically sourced coffee and fresh ingredients</p>
+        </div>
+        <div class="text-center p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
+            <div class="text-4xl mb-3">📍</div>
+            <h3 class="font-bold mb-2">On Campus</h3>
+            <p class="text-gray-600">Conveniently located at the ShyWaver Hub</p>
+        </div>
+        <div class="text-center p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
+            <div class="text-4xl mb-3">🤝</div>
+            <h3 class="font-bold mb-2">Network Here</h3>
+            <p class="text-gray-600">Perfect for meetings and collaboration</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function addToCart(itemId) {
+    fetch("{% url 'add_to_cart' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `item_id=${itemId}&quantity=1`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('Added to cart!', 'success');
+        } else {
+            showNotification('Please login to add items to cart', 'error');
+        }
+    });
+}
+
+function showBookNook() {
+    // This can be expanded to show a modal with all books
+    showNotification('Book Nook feature coming soon!', 'info');
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-20 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300 ${
+        type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+    } text-white`;
+    notification.innerHTML = `
+        <div class="flex items-center space-x-3">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+</script>
+
+<style>
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+</style>
+{% endblock %}

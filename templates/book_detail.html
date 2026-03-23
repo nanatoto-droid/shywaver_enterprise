@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ book.title }} - Book Nook{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-amber-700 to-orange-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <a href="{% url 'book_nook' %}" class="text-white hover:text-gray-200 mb-4 inline-block">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Book Nook
+        </a>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Book Cover -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden sticky top-20">
+                {% if book.cover_image %}
+                <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="w-full object-cover">
+                {% else %}
+                <div class="w-full h-96 bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                    <span class="text-8xl text-white opacity-50">📖</span>
+                </div>
+                {% endif %}
+                
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm">
+                            {{ book.get_category_display }}
+                        </span>
+                        {% if book.is_featured %}
+                        <span class="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-star mr-1"></i> Featured
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if user.is_staff %}
+                    <div class="flex space-x-2">
+                        <a href="{% url 'edit_book' book.slug %}" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-center">
+                            <i class="fas fa-edit mr-2"></i> Edit
+                        </a>
+                        <a href="{% url 'delete_book' book.slug %}" class="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition text-center">
+                            <i class="fas fa-trash mr-2"></i> Delete
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Book Details -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ book.title }}</h1>
+                <p class="text-xl text-gray-600 mb-4">by {{ book.author }}</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 pb-6 border-b border-gray-200">
+                    <div>
+                        <p class="text-gray-500 text-sm">Published</p>
+                        <p class="font-semibold">{{ book.published_year }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm">Pages</p>
+                        <p class="font-semibold">{{ book.pages }}</p>
+                    </div>
+                    {% if book.publisher %}
+                    <div>
+                        <p class="text-gray-500 text-sm">Publisher</p>
+                        <p class="font-semibold">{{ book.publisher }}</p>
+                    </div>
+                    {% endif %}
+                    {% if book.isbn %}
+                    <div>
+                        <p class="text-gray-500 text-sm">ISBN</p>
+                        <p class="font-semibold text-sm">{{ book.isbn }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold mb-4">About this Book</h2>
+                    <div class="prose max-w-none text-gray-700">
+                        {{ book.description|linebreaks }}
+                    </div>
+                </div>
+                
+                <!-- Reviews Section -->
+                <div class="border-t border-gray-200 pt-8">
+                    <h2 class="text-2xl font-bold mb-4">Reviews ({{ reviews.count }})</h2>
+                    
+                    {% if user.is_authenticated %}
+                    <form method="post" class="mb-8 bg-gray-50 p-6 rounded-lg">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-2">Your Rating</label>
+                            {{ form.rating }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-2">Your Review</label>
+                            {{ form.comment }}
+                        </div>
+                        <button type="submit" class="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition">
+                            Submit Review
+                        </button>
+                    </form>
+                    {% endif %}
+                    
+                    <div class="space-y-4">
+                        {% for review in reviews %}
+                        <div class="border-b border-gray-200 pb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                                        <span class="text-amber-600 font-bold">{{ review.user.username|make_list|first|upper }}</span>
+                                    </div>
+                                    <span class="font-semibold">{{ review.user.username }}</span>
+                                </div>
+                                <div class="flex items-center">
+                                    {% for i in "12345"|make_list %}
+                                    <i class="fas fa-star {% if forloop.counter <= review.rating %}text-yellow-500{% else %}text-gray-300{% endif %} text-sm"></i>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <p class="text-gray-700">{{ review.comment }}</p>
+                            <p class="text-xs text-gray-500 mt-2">{{ review.created_at|date:"F d, Y" }}</p>
+                        </div>
+                        {% empty %}
+                        <p class="text-gray-500 text-center py-4">No reviews yet. Be the first to review this book!</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

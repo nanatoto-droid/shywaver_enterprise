@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Business Exchange - ShyWaver Enterprises{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Business Exchange</h1>
+        <p class="text-xl">Discover talented student entrepreneurs offering services and products across campus</p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Search and Filter -->
+    <div class="mb-8">
+        <form method="get" class="flex flex-col md:flex-row gap-4">
+            <input type="text" name="search" placeholder="Search businesses..." value="{{ search_query }}" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="category" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition">Filter</button>
+        </form>
+    </div>
+    
+   <!-- Businesses Grid - Enhanced Version -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for business in businesses %}
+    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 group">
+        <!-- Image Section with Overlay -->
+        <div class="relative h-52 overflow-hidden">
+            {% if business.image %}
+            <img src="{{ business.image.url }}" alt="{{ business.name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            {% else %}
+            <div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div class="text-center">
+                    <span class="text-white text-6xl opacity-50">🏪</span>
+                    <p class="text-white text-sm mt-2 opacity-50">No image</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Overlay Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+            
+            <!-- Rating Badge -->
+            <div class="absolute top-3 left-3 bg-yellow-400 text-gray-900 px-2 py-1 rounded-lg text-sm font-bold flex items-center space-x-1 shadow-lg">
+                <i class="fas fa-star text-xs"></i>
+                <span>{{ business.rating }}</span>
+            </div>
+            
+            <!-- Category Badge -->
+            <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-blue-600 px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                {{ business.category.name }}
+            </div>
+            
+            <!-- Business Name Overlay (on image) -->
+            <div class="absolute bottom-3 left-3 right-3">
+                <h3 class="text-white font-bold text-lg line-clamp-1 drop-shadow-lg">{{ business.name }}</h3>
+                <p class="text-white/80 text-xs flex items-center">
+                    <i class="fas fa-user-circle mr-1"></i> {{ business.owner.username }}
+                </p>
+            </div>
+        </div>
+        
+        <div class="p-5">
+            <!-- Description -->
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ business.description|truncatechars:100 }}</p>
+            
+            <!-- Services Tags -->
+            {% if business.get_services_list %}
+            <div class="flex flex-wrap gap-1 mb-3">
+                {% for service in business.get_services_list|slice:":3" %}
+                <span class="bg-blue-50 text-blue-600 px-2 py-1 rounded-full text-xs font-medium">{{ service|truncatechars:15 }}</span>
+                {% endfor %}
+                {% if business.get_services_list|length > 3 %}
+                <span class="text-gray-400 text-xs flex items-center cursor-help" title="{{ business.get_services_list|slice:'3:'|join:', ' }}">
+                    +{{ business.get_services_list|length|add:"-3" }} more
+                </span>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <!-- Stats Row -->
+            <div class="flex items-center justify-between mb-4 pt-2 border-t border-gray-100">
+                <div class="flex items-center space-x-3 text-xs text-gray-500">
+                    <span class="flex items-center" title="Location">
+                        <i class="fas fa-map-marker-alt mr-1 text-blue-500"></i> {{ business.location }}
+                    </span>
+                    <span class="flex items-center" title="Reviews">
+                        <i class="fas fa-comments mr-1 text-green-500"></i> {{ business.review_count }}
+                    </span>
+                </div>
+                {% if business.rating >= 4.5 %}
+                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full font-semibold">
+                    <i class="fas fa-certificate mr-1"></i> Top Rated
+                </span>
+                {% endif %}
+            </div>
+            
+            <!-- View Profile Button -->
+            <a href="{% url 'business_detail' business.slug %}" class="inline-flex items-center justify-between w-full bg-gradient-to-r from-primary to-primary-dark text-white px-4 py-2.5 rounded-lg hover:shadow-lg transition-all duration-300 group/btn">
+                <span class="font-semibold">View Profile</span>
+                <div class="flex items-center space-x-1">
+                    <span class="text-sm">Learn More</span>
+                    <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-3 text-center py-16 bg-white rounded-xl shadow-md">
+        <div class="text-7xl mb-4">🏪</div>
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">No businesses found</h3>
+        <p class="text-gray-500 mb-6">Be the first to showcase your business to the campus community!</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'add_business' %}" class="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition">
+            <i class="fas fa-plus-circle mr-2"></i> List Your Business
+        </a>
+        {% else %}
+        <a href="{% url 'login' %}" class="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition">
+            <i class="fas fa-sign-in-alt mr-2"></i> Login to List Your Business
+        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+    
+    <!-- Pagination -->
+    {% if businesses.has_other_pages %}
+    <div class="flex justify-center mt-8">
+        <nav class="inline-flex rounded-md shadow">
+            {% if businesses.has_previous %}
+            <a href="?page={{ businesses.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">Previous</a>
+            {% endif %}
+            
+            <span class="px-4 py-2 bg-primary text-white border border-primary">Page {{ businesses.number }} of {{ businesses.paginator.num_pages }}</span>
+            
+            {% if businesses.has_next %}
+            <a href="?page={{ businesses.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">Next</a>
+            {% endif %}
+        </nav>
+    </div>
+    {% endif %}
+    
+    <!-- CTA Section -->
+    <div class="mt-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-8 text-white text-center">
+        <h3 class="text-2xl font-bold mb-3">Ready to Showcase Your Business?</h3>
+        <p class="mb-4">Join the Business Exchange and connect with customers across campus</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'add_business' %}" class="inline-block bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">List Your Business</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="inline-block bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Login to List Your Business</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

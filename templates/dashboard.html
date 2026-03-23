@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - ShyWaver Enterprises{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">Welcome back, {{ user.username }}!</h1>
+                <p class="text-lg">Manage your businesses, blog posts, and reservations</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex space-x-3">
+                <a href="{% url 'add_business' %}" class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">+ Add Business</a>
+                <a href="{% url 'add_blog_post' %}" class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">+ Write Blog</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Businesses</p>
+                    <p class="text-3xl font-bold text-primary">{{ businesses.count }}</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Blog Posts</p>
+                    <p class="text-3xl font-bold text-primary">{{ blog_posts.count }}</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Orders</p>
+                    <p class="text-3xl font-bold text-primary">{{ orders.count }}</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Waver Pass</p>
+                    <p class="text-3xl font-bold text-primary">{% if has_waver_pass %}Active{% else %}Inactive{% endif %}</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <a href="{% url 'reserve_table' %}" class="bg-blue-50 hover:bg-blue-100 rounded-lg p-4 text-center transition">
+            <div class="text-2xl mb-2">🍽️</div>
+            <p class="font-semibold text-blue-600">Reserve Founder's Table</p>
+        </a>
+        <a href="{% url 'create_pitch' %}" class="bg-blue-50 hover:bg-blue-100 rounded-lg p-4 text-center transition">
+            <div class="text-2xl mb-2">📢</div>
+            <p class="font-semibold text-blue-600">Create Pitch Wall Post</p>
+        </a>
+        <a href="{% url 'profile' %}" class="bg-blue-50 hover:bg-blue-100 rounded-lg p-4 text-center transition">
+            <div class="text-2xl mb-2">👤</div>
+            <p class="font-semibold text-blue-600">Update Profile</p>
+        </a>
+        <a href="#" class="bg-blue-50 hover:bg-blue-100 rounded-lg p-4 text-center transition">
+            <div class="text-2xl mb-2">💳</div>
+            <p class="font-semibold text-blue-600">Upgrade to Waver Pass</p>
+        </a>
+    </div>
+    
+    <!-- My Businesses -->
+    <div class="bg-white rounded-xl shadow-lg mb-8">
+        <div class="border-b border-gray-200 p-6">
+            <h2 class="text-xl font-bold">My Businesses</h2>
+        </div>
+        <div class="p-6">
+            {% if businesses %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for business in businesses %}
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg">{{ business.name }}</h3>
+                            <p class="text-sm text-gray-500">{{ business.category.name }}</p>
+                            <div class="flex items-center mt-2">
+                                <span class="text-yellow-500">★</span>
+                                <span class="ml-1">{{ business.rating }}</span>
+                                <span class="text-gray-500 ml-2">({{ business.review_count }} reviews)</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <a href="{% url 'edit_business' business.slug %}" class="text-blue-600 hover:text-blue-800">Edit</a>
+                            <a href="{% url 'business_detail' business.slug %}" class="text-green-600 hover:text-green-800">View</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500 text-center py-8">You haven't listed any businesses yet. <a href="{% url 'add_business' %}" class="text-primary hover:underline">Add your first business</a></p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- My Blog Posts -->
+    <div class="bg-white rounded-xl shadow-lg mb-8">
+        <div class="border-b border-gray-200 p-6">
+            <h2 class="text-xl font-bold">My Blog Posts</h2>
+        </div>
+        <div class="p-6">
+            {% if blog_posts %}
+            <div class="space-y-4">
+                {% for post in blog_posts %}
+                <div class="border-b border-gray-200 pb-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold">{{ post.title }}</h3>
+                            <p class="text-sm text-gray-500">{{ post.created_at|date:"M d, Y" }} • {{ post.views }} views</p>
+                            <span class="inline-block bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs mt-2">{{ post.get_category_display }}</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="{% url 'edit_blog_post' post.slug %}" class="text-blue-600 hover:text-blue-800">Edit</a>
+                            <a href="{% url 'blog_detail' post.slug %}" class="text-green-600 hover:text-green-800">View</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500 text-center py-8">You haven't written any blog posts yet. <a href="{% url 'add_blog_post' %}" class="text-primary hover:underline">Write your first post</a></p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Recent Orders -->
+    <div class="bg-white rounded-xl shadow-lg mb-8">
+        <div class="border-b border-gray-200 p-6">
+            <h2 class="text-xl font-bold">Recent Orders</h2>
+        </div>
+        <div class="p-6">
+            {% if orders %}
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-2">Order #</th>
+                            <th class="text-left py-2">Total</th>
+                            <th class="text-left py-2">Status</th>
+                            <th class="text-left py-2">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr class="border-b border-gray-100">
+                            <td class="py-2">#{{ order.id }}</td>
+                            <td class="py-2">${{ order.total }}</td>
+                            <td class="py-2">
+                                <span class="inline-block px-2 py-1 rounded-full text-xs 
+                                    {% if order.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                    {% elif order.status == 'confirmed' %}bg-blue-100 text-blue-800
+                                    {% elif order.status == 'completed' %}bg-green-100 text-green-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                            <td class="py-2">{{ order.created_at|date:"M d, Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-500 text-center py-8">No orders yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Reservations & Pitch Posts -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-xl shadow-lg">
+            <div class="border-b border-gray-200 p-6">
+                <h2 class="text-xl font-bold">Table Reservations</h2>
+            </div>
+            <div class="p-6">
+                {% if reservations %}
+                <div class="space-y-3">
+                    {% for reservation in reservations %}
+                    <div class="border-b border-gray-200 pb-3">
+                        <p class="font-semibold">{{ reservation.business_name }}</p>
+                        <p class="text-sm text-gray-600">{{ reservation.date }} at {{ reservation.time }}</p>
+                        <p class="text-sm text-gray-500">{{ reservation.attendees }} attendees</p>
+                        <span class="inline-block px-2 py-1 rounded-full text-xs {% if reservation.is_confirmed %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                            {% if reservation.is_confirmed %}Confirmed{% else %}Pending{% endif %}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-gray-500 text-center py-4">No reservations yet.</p>
+                {% endif %}
+                <a href="{% url 'reserve_table' %}" class="block text-center mt-4 text-primary hover:underline">Make a Reservation</a>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg">
+            <div class="border-b border-gray-200 p-6">
+                <h2 class="text-xl font-bold">Pitch Wall Posts</h2>
+            </div>
+            <div class="p-6">
+                {% if pitch_posts %}
+                <div class="space-y-3">
+                    {% for pitch in pitch_posts %}
+                    <div class="border-b border-gray-200 pb-3">
+                        <p class="font-semibold">{{ pitch.title }}</p>
+                        <p class="text-sm text-gray-600">{{ pitch.description|truncatechars:80 }}</p>
+                        <p class="text-xs text-gray-500 mt-1">{{ pitch.created_at|date:"M d, Y" }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-gray-500 text-center py-4">No pitch posts yet.</p>
+                {% endif %}
+                <a href="{% url 'create_pitch' %}" class="block text-center mt-4 text-primary hover:underline">Create a Pitch Post</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

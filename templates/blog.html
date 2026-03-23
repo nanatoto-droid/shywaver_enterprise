@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - ShyWaver Enterprises{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">ShyWaver Blog</h1>
+        <p class="text-xl">Insights, tips, and stories from the student entrepreneurship community</p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Search and Filter -->
+    <div class="mb-8">
+        <form method="get" class="flex flex-col md:flex-row gap-4">
+            <input type="text" name="search" placeholder="Search articles..." value="{{ search_query }}" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="category" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Categories</option>
+                <option value="entrepreneurship" {% if selected_category == 'entrepreneurship' %}selected{% endif %}>Entrepreneurship</option>
+                <option value="marketing" {% if selected_category == 'marketing' %}selected{% endif %}>Marketing</option>
+                <option value="community" {% if selected_category == 'community' %}selected{% endif %}>Community</option>
+                <option value="business" {% if selected_category == 'business' %}selected{% endif %}>Business</option>
+            </select>
+            <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition">Search</button>
+        </form>
+    </div>
+    
+    <!-- Blog Posts - Alternative Layout with Image on Top for Mobile -->
+<div class="space-y-8">
+    {% for post in posts %}
+    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition group">
+        <!-- Image Section - Full width on mobile, side on desktop -->
+        <div class="md:flex">
+            {% if post.image %}
+            <div class="md:w-2/5 h-56 md:h-auto overflow-hidden">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            </div>
+            {% else %}
+            <div class="md:w-2/5 h-56 md:h-auto bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                <div class="text-center">
+                    <span class="text-5xl text-white opacity-50">📝</span>
+                    <p class="text-white text-sm mt-2 opacity-50">No image</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Content Section -->
+            <div class="md:w-3/5 p-6">
+                <!-- Category Badge -->
+                <div class="flex items-center justify-between mb-3">
+                    <span class="inline-block bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
+                        {{ post.get_category_display }}
+                    </span>
+                    {% if post.is_featured %}
+                    <span class="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full text-xs font-semibold">
+                        ⭐ Featured
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <!-- Title -->
+                <h2 class="text-xl md:text-2xl font-bold mb-2">
+                    <a href="{% url 'blog_detail' post.slug %}" class="hover:text-primary transition line-clamp-2">{{ post.title }}</a>
+                </h2>
+                
+                <!-- Excerpt -->
+                <p class="text-gray-600 mb-3 line-clamp-2">{{ post.excerpt }}</p>
+                
+                <!-- Meta Info -->
+                <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-4">
+                    <div class="flex items-center">
+                        <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                            <span class="text-blue-600 text-xs font-bold">{{ post.author.username|make_list|first|upper }}</span>
+                        </div>
+                        <span>{{ post.author.username }}</span>
+                    </div>
+                    <span>•</span>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span>{{ post.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <span>•</span>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>{{ post.read_time }} min</span>
+                    </div>
+                    <span>•</span>
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        <span>{{ post.views }}</span>
+                    </div>
+                </div>
+                
+                <!-- Read More Button -->
+                <a href="{% url 'blog_detail' post.slug %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition group">
+                    <span>Read full article</span>
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="text-center py-16 bg-white rounded-lg shadow-md">
+        <div class="text-6xl mb-4">📝</div>
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">No blog posts yet</h3>
+        <p class="text-gray-500 mb-6">Be the first to share your insights with the community!</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'add_blog_post' %}" class="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition">
+            <i class="fas fa-pen mr-2"></i> Write Your First Post
+        </a>
+        {% else %}
+        <a href="{% url 'login' %}" class="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition">
+            <i class="fas fa-sign-in-alt mr-2"></i> Login to Write
+        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+    <!-- Pagination -->
+    {% if posts.has_other_pages %}
+    <div class="flex justify-center mt-8">
+        <nav class="inline-flex rounded-md shadow">
+            {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">Previous</a>
+            {% endif %}
+            
+            <span class="px-4 py-2 bg-primary text-white border border-primary">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+            
+            {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">Next</a>
+            {% endif %}
+        </nav>
+    </div>
+    {% endif %}
+    
+    <!-- Newsletter Signup -->
+    <div class="mt-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-8 text-white text-center">
+        <h3 class="text-2xl font-bold mb-3">Subscribe to Our Newsletter</h3>
+        <p class="mb-4">Get the latest tips, stories, and opportunities delivered to your inbox</p>
+        <form method="post" action="{% url 'newsletter_subscribe' %}" class="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Enter your email" class="flex-1 px-4 py-2 rounded-lg text-gray-900">
+            <button type="submit" class="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">Subscribe</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - ShyWaver Blog{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <span class="inline-block bg-blue-500 px-4 py-2 rounded-full text-sm font-semibold mb-4">{{ post.get_category_display }}</span>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4">{{ post.title }}</h1>
+            <div class="flex items-center justify-center space-x-4 text-sm">
+                <span>By {{ post.author.username }}</span>
+                <span>•</span>
+                <span>{{ post.created_at|date:"F d, Y" }}</span>
+                <span>•</span>
+                <span>{{ post.read_time }} min read</span>
+                <span>•</span>
+                <span>{{ post.views }} views</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <article class="bg-white rounded-xl shadow-lg overflow-hidden">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-96 object-cover">
+        {% endif %}
+        
+        <div class="p-8 md:p-12">
+            <div class="prose prose-lg max-w-none">
+                {{ post.content|linebreaks }}
+            </div>
+            
+            <div class="border-t border-gray-200 mt-8 pt-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span class="text-blue-600 font-bold text-xl">{{ post.author.username|make_list|first|upper }}</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold">{{ post.author.username }}</p>
+                            <p class="text-sm text-gray-500">Student Entrepreneur</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition">Share</button>
+                        {% if user == post.author %}
+                        <a href="{% url 'edit_blog_post' post.slug %}" class="px-4 py-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 transition">Edit</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    
+    <!-- Related Posts -->
+    {% if related_posts %}
+    <div class="mt-12">
+        <h3 class="text-2xl font-bold mb-6">Related Articles</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for related in related_posts %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+                <div class="p-6">
+                    <span class="inline-block bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs mb-2">{{ related.get_category_display }}</span>
+                    <h4 class="font-bold mb-2">
+                        <a href="{% url 'blog_detail' related.slug %}" class="hover:text-primary">{{ related.title|truncatechars:60 }}</a>
+                    </h4>
+                    <p class="text-sm text-gray-500">{{ related.created_at|date:"M d, Y" }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Newsletter Signup -->
+    <div class="mt-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-8 text-white text-center">
+        <h3 class="text-2xl font-bold mb-3">Enjoyed this article?</h3>
+        <p class="mb-4">Subscribe to our newsletter for more insights and tips</p>
+        <form method="post" action="{% url 'newsletter_subscribe' %}" class="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Enter your email" class="flex-1 px-4 py-2 rounded-lg text-gray-900">
+            <button type="submit" class="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">Subscribe</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

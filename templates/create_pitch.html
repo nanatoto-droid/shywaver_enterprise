@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Create a Pitch - ShyWaver Enterprises{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-blue-700 to-gray-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl md:text-4xl font-bold">Create Your Pitch</h1>
+        <p class="text-lg mt-2">Share your idea and find collaborators</p>
+    </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="p-6 md:p-8">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <h3 class="font-semibold text-blue-800 mb-2">Tips for a Great Pitch</h3>
+                <ul class="text-sm text-blue-700 space-y-1">
+                    <li>✓ Be clear about what you're looking for (co-founder, team members, investors)</li>
+                    <li>✓ Highlight what makes your idea unique</li>
+                    <li>✓ Specify the skills you need</li>
+                    <li>✓ Include your portfolio or LinkedIn profile</li>
+                    <li>✓ Be authentic and passionate about your idea</li>
+                </ul>
+            </div>
+            
+            <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ field.label }}
+                        {% if field.field.required %}
+                        <span class="text-red-500">*</span>
+                        {% endif %}
+                    </label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <p class="text-gray-500 text-xs mt-1">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% if field.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                
+                <div class="flex justify-end space-x-3">
+                    <a href="{% url 'home' %}" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">Cancel</a>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Post Your Pitch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    input, textarea, select {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+    }
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        ring: 2px solid #3b82f6;
+        border-color: #3b82f6;
+    }
+    textarea {
+        min-height: 100px;
+    }
+</style>
+{% endblock %}
