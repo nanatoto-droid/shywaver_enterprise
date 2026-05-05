@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from .forms import PitchWallPostForm, PitchInterestForm, PitchCommentForm
 
-def home(request):
+def index(request):
     featured_menu = MenuItem.objects.filter(featured=True, is_available=True)[:6]
     recent_blogs = BlogPost.objects.filter(is_published=True).order_by('-created_at')[:3]
     top_businesses = Business.objects.filter(is_active=True).order_by('-rating')[:6]
@@ -23,7 +23,7 @@ def home(request):
         'top_businesses': top_businesses,
         'pitch_posts': pitch_posts,
     }
-    return render(request, 'home.html', context)
+    return render(request, 'index.html', context)
 
 def cafe_menu(request):
     menu_items = MenuItem.objects.filter(is_available=True)
@@ -322,7 +322,7 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     messages.success(request, 'You have been logged out successfully.')
-    return redirect('home')
+    return redirect('index')
 
 @login_required
 def profile(request):
@@ -354,7 +354,7 @@ def newsletter_subscribe(request):
         else:
             messages.error(request, 'Invalid email address.')
     
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+    return redirect(request.META.get('HTTP_REFERER', 'index'))
 
 def add_to_cart(request):
     if request.method == 'POST' and request.user.is_authenticated:
@@ -475,7 +475,7 @@ def delete_pitch(request, pk):
     if request.method == 'POST':
         pitch.delete()
         messages.success(request, 'Your pitch has been deleted.')
-        return redirect('home')
+        return redirect('index')
     
     return render(request, 'delete_pitch.html', {'pitch': pitch})
 

@@ -2,8 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Home
-    path('', views.home, name='home'),
+    # index
+    path('', views.index, name='index'),
     
     # Cafe Menu
     path('cafe-menu/', views.cafe_menu, name='cafe_menu'),
